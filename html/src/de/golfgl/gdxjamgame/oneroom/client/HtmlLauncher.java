@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.badlogic.gdx.backends.gwt.GwtGraphics;
+import com.badlogic.gdx.backends.gwt.preloader.Preloader;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
@@ -46,4 +48,9 @@ public class HtmlLauncher extends GwtApplication {
         public ApplicationListener createApplicationListener () {
                 return new GdxJamGame();
         }
+
+    @Override
+    public Preloader.PreloaderCallback getPreloaderCallback() {
+        return createPreloaderPanel(GWT.getHostPageBaseURL() + "title.png");
+    }
 }
