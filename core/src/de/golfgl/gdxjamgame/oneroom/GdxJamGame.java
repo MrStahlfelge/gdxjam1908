@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
+
 public class GdxJamGame extends Game {
     public static int nativeGameWidth = 1920;
     public static int nativeGameHeight = 1222;
@@ -18,12 +20,15 @@ public class GdxJamGame extends Game {
     public Music bgMusic;
     public Label.LabelStyle labelStyle;
     public Texture bgWhite;
+    public Texture noAvatar;
     private AssetManager assetManager;
     private BitmapFont font;
+    private GameLogic gameLogic;
 
     @Override
     public void create() {
         loadAssets();
+        loadData();
         this.setScreen(new GameScreen(this));
     }
 
@@ -34,6 +39,7 @@ public class GdxJamGame extends Game {
         assetManager.load("bgmusic.mp3", Music.class);
         assetManager.load("title.png", Texture.class);
         assetManager.load("font.fnt", BitmapFont.class);
+        assetManager.load("noavatar.png", Texture.class);
 
         assetManager.finishLoading();
 
@@ -42,6 +48,7 @@ public class GdxJamGame extends Game {
         bgMusic = assetManager.get("bgmusic.mp3", Music.class);
         title = assetManager.get("title.png", Texture.class);
         font = assetManager.get("font.fnt", BitmapFont.class);
+        noAvatar = assetManager.get("noavatar.png", Texture.class);
 
         title.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -53,6 +60,10 @@ public class GdxJamGame extends Game {
         pixmap.drawPixel(0, 0);
         bgWhite = new Texture(pixmap); //remember to dispose of later
         pixmap.dispose();
+    }
+
+    private void loadData() {
+        gameLogic = new GameLogic(this);
     }
 
     @Override
