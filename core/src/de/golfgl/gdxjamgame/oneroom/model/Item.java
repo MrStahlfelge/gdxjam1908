@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 
-class Item {
+public class Item {
     private String description;
     private String owner;
     private Texture image;
@@ -15,9 +15,10 @@ class Item {
         description = value.getString("description");
 
         String imageFile = value.getString("image");
-        if (imageFile != null)
+        if (imageFile != null) {
             image = new Texture(Gdx.files.internal(imageFile));
-        else
+            image.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        } else
             image = app.noAvatar;
 
         owner = value.getString("owner");

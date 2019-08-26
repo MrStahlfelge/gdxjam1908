@@ -1,4 +1,4 @@
-package de.golfgl.gdxjamgame.oneroom;
+package de.golfgl.gdxjamgame.oneroom.scene2d;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;

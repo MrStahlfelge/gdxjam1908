@@ -21,9 +21,10 @@ public class GdxJamGame extends Game {
     public Label.LabelStyle labelStyle;
     public Texture bgWhite;
     public Texture noAvatar;
+    public Texture circle;
     private AssetManager assetManager;
     private BitmapFont font;
-    private GameLogic gameLogic;
+    public GameLogic gameLogic;
 
     @Override
     public void create() {
@@ -40,6 +41,7 @@ public class GdxJamGame extends Game {
         assetManager.load("title.png", Texture.class);
         assetManager.load("font.fnt", BitmapFont.class);
         assetManager.load("noavatar.png", Texture.class);
+        assetManager.load("circle.png", Texture.class);
 
         assetManager.finishLoading();
 
@@ -49,9 +51,12 @@ public class GdxJamGame extends Game {
         title = assetManager.get("title.png", Texture.class);
         font = assetManager.get("font.fnt", BitmapFont.class);
         noAvatar = assetManager.get("noavatar.png", Texture.class);
+        circle = assetManager.get("circle.png", Texture.class);
 
         title.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        circle.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        noAvatar.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         labelStyle = new Label.LabelStyle(font, Color.WHITE);
 

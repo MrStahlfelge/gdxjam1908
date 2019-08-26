@@ -18,9 +18,10 @@ public class Participant {
         name = value.getString("name");
 
         String avatarFile = value.getString("avatar");
-        if (avatarFile != null)
+        if (avatarFile != null) {
             avatar = new Texture(Gdx.files.internal(avatarFile));
-        else
+            avatar.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        } else
             avatar = app.noAvatar;
 
         JsonValue position = value.get("pos");

@@ -2,10 +2,12 @@ package de.golfgl.gdxjamgame.oneroom.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
@@ -44,5 +46,30 @@ public class GameLogic {
             else
                 Gdx.app.error("DATA", "Owner not known: " + item.getOwner());
         }
+    }
+
+    public Participant getParticipant(String name) {
+        return participantsMap.get(name);
+    }
+
+    public Item getNextItem() {
+        return items.get(0);
+    }
+
+    public Array<Participant> getItemParticipantSuggestions(Item item) {
+        Array<Participant> participants = new Array<>(3);
+        ArrayList<Participant> allParticipants = new ArrayList(participantsMap.values());
+
+        participants.add(participantsMap.get(item.getOwner()));
+
+        while (participants.size < 3) {
+            Participant newSuggestion = allParticipants.get(MathUtils.random(0, allParticipants.size() - 1));
+            if (!participants.contains(newSuggestion, true))
+                participants.add(newSuggestion);
+        }
+
+        participants.shuffle();
+
+        return participants;
     }
 }

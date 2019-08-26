@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import de.golfgl.gdxjamgame.oneroom.scene2d.AnimatedTable;
+import de.golfgl.gdxjamgame.oneroom.scene2d.ItemQuizGroup;
+
 public class GameScreen extends AbstractScreen {
 
     private final Image imFull;
@@ -153,7 +156,7 @@ public class GameScreen extends AbstractScreen {
 
         mainTable.row();
         final Label continueLabel = new Label("Can you? Tap to begin.", app.labelStyle);
-        mainTable.addMultilineLabelAnimated(continueLabel, 5f).expandY();
+        mainTable.addMultilineLabelAnimated(continueLabel, 2f).expandY();
 
         mainTable.addListener(new ClickListener() {
             @Override
@@ -172,6 +175,9 @@ public class GameScreen extends AbstractScreen {
 
     private void beginToPlay() {
         mainTable.setVisible(false);
+
+        ItemQuizGroup group = new ItemQuizGroup(app.gameLogic.getNextItem(), app);
+        stage.addActor(group);
     }
 
     @Override
