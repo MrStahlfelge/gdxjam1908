@@ -176,7 +176,15 @@ public class GameScreen extends AbstractScreen {
     private void beginToPlay() {
         mainTable.setVisible(false);
 
-        ItemQuizGroup group = new ItemQuizGroup(app.gameLogic.getNextItem(), app);
+        ItemQuizGroup group = new ItemQuizGroup(app.gameLogic.getNextItem(), app) {
+            @Override
+            protected void onAnswered(boolean correct) {
+                // TODO Count correct answers
+
+                remove();
+                beginToPlay();
+            }
+        };
         stage.addActor(group);
     }
 

@@ -30,6 +30,7 @@ public class ItemQuizGroup extends WidgetGroup {
     private final ItemActor itemActor;
     private int participantClicked = -1;
     private int correctParticipant;
+    private float timePassed;
 
 
     public ItemQuizGroup(Item item, GdxJamGame app) {
@@ -62,7 +63,12 @@ public class ItemQuizGroup extends WidgetGroup {
     public void act(float delta) {
         super.act(delta);
 
-        // TODO 5s Zeit ablaufen lassen, dann einfach klicken
+        // Timeout, hehehe
+        timePassed = timePassed + delta;
+
+        if (participantClicked < 0 && timePassed > 5 + DELAY_SUGGESTIONS) {
+            clickedParticipant(participant.length);
+        }
     }
 
     private void clickedParticipant(int clickedIndex) {
@@ -79,7 +85,17 @@ public class ItemQuizGroup extends WidgetGroup {
                 participant[i].getLabel().addAction(delay);
         }
 
-        float waitTime = 0;
+        if (clickedIndex >= participant.length) {
+            addAction(Actions.delay(1f, Actions.run(new Runnable() {
+                @Override
+                public void run() {
+                    onAnswered(false);
+                }
+            })));
+            return;
+        }
+
+        float waitTime;
         if (clickedIndex == correctParticipant) {
             Image imageActor = participant[clickedIndex].getImageActor();
             imageActor.setOrigin(Align.center);
@@ -100,8 +116,18 @@ public class ItemQuizGroup extends WidgetGroup {
             waitTime = WAIT_BEFORE_SHOWN + duration * 8 + .5f;
         }
 
-        participant[clickedIndex].addAction(Actions.delay(waitTime,
-                Actions.moveTo(participant[clickedIndex].getX(), -participant[clickedIndex].getHeight(), .5f, Interpolation.fade)));
+        participant[clickedIndex].addAction(Actions.delay(waitTime, Actions.sequence(
+                Actions.moveTo(participant[clickedIndex].getX(), -participant[clickedIndex].getHeight(), .5f, Interpolation.fade),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        onAnswered(correctParticipant == participantClicked);
+                    }
+                }))));
+    }
+
+    protected void onAnswered(boolean correct) {
+
     }
 
     @Override
