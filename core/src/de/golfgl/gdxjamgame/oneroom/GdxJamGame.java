@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -16,6 +17,7 @@ public class GdxJamGame extends Game {
     public Texture title;
     public Music bgMusic;
     public Label.LabelStyle labelStyle;
+    public Texture bgWhite;
     private AssetManager assetManager;
     private BitmapFont font;
 
@@ -45,6 +47,12 @@ public class GdxJamGame extends Game {
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         labelStyle = new Label.LabelStyle(font, Color.WHITE);
+
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(1, 1, 1, .5f);
+        pixmap.drawPixel(0, 0);
+        bgWhite = new Texture(pixmap); //remember to dispose of later
+        pixmap.dispose();
     }
 
     @Override

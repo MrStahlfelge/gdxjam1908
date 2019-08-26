@@ -5,14 +5,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.SnapshotArray;
 
 public class AnimatedTable extends Table {
     private float delayTime;
     private float fadeInTime = 1f;
 
-    public Cell<Actor> addAnimated(Actor a, float delayTime) {
+    public <T extends Actor> Cell<T> addAnimated(T a, float delayTime) {
         this.delayTime = delayTime + this.delayTime;
 
         a.getColor().a = 0;
@@ -21,6 +23,12 @@ public class AnimatedTable extends Table {
                 Actions.fadeIn(fadeInTime, Interpolation.fade)));
 
         return add(a);
+    }
+
+    public Cell<Label> addMultilineLabelAnimated(Label lbl, float delayTime) {
+        lbl.setWrap(true);
+
+        return addAnimated(lbl, delayTime).fillX();
     }
 
     public float getDelayTime() {
@@ -57,6 +65,21 @@ public class AnimatedTable extends Table {
                             doAfter.run();
                     }
                 })));
+    }
+
+    public void fadeOutAllChildrenAndClear(float fadeOutTime, final Runnable doAfter) {
+        SnapshotArray<Actor> children = getChildren();
+        for (Actor child: children)
+            child.addAction(Actions.fadeOut(fadeOutTime, Interpolation.fade));
+
+        addAction(Actions.delay(fadeOutTime, Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                clear();
+                if (doAfter != null)
+                    doAfter.run();
+            }
+        })));
     }
 
     @Override
