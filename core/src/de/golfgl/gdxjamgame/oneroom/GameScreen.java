@@ -76,7 +76,7 @@ public class GameScreen extends AbstractScreen {
         mainTable.addAction(Actions.fadeIn(.5f, Interpolation.fade));
 
         mainTable.addMultilineLabelAnimated(new Label("On a warm day in August 2019, the core libGDX discord crew meet up " +
-                "for the traditional summer party hosted by Bamboo Bandit.", app.labelStyle), 1f)
+                "for the traditional summer party hosted by BambooBandit.", app.labelStyle), 1f)
                 .expandY().width(.5f * GdxJamGame.nativeGameWidth);
 
         mainTable.row();
@@ -137,7 +137,7 @@ public class GameScreen extends AbstractScreen {
     private void fillTableWithIntroPage2() {
         imFull.addAction(Actions.fadeOut(1f, Interpolation.fade));
 
-        mainTable.addMultilineLabelAnimated(new Label("After all friends were gone, Bamboo Bandit " +
+        mainTable.addMultilineLabelAnimated(new Label("After all friends were gone, BambooBandit " +
                 "began to clean the room.", app.labelStyle), 2f)
                 .expandY().width(.5f * GdxJamGame.nativeGameWidth);
 
