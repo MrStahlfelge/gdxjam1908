@@ -3,6 +3,7 @@ package de.golfgl.gdxjamgame.oneroom;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +19,7 @@ public class GdxJamGame extends Game {
     public Texture backgroundEmpty;
     public Texture title;
     public Music bgMusic;
+    public Sound wrongSound;
     public Label.LabelStyle labelStyle;
     public Texture bgWhite;
     public Texture noAvatar;
@@ -42,6 +44,7 @@ public class GdxJamGame extends Game {
         assetManager.load("font.fnt", BitmapFont.class);
         assetManager.load("noavatar.png", Texture.class);
         assetManager.load("circle.png", Texture.class);
+        assetManager.load("wrong.mp3", Sound.class);
 
         assetManager.finishLoading();
 
@@ -52,6 +55,9 @@ public class GdxJamGame extends Game {
         font = assetManager.get("font.fnt", BitmapFont.class);
         noAvatar = assetManager.get("noavatar.png", Texture.class);
         circle = assetManager.get("circle.png", Texture.class);
+        wrongSound = assetManager.get("wrong.mp3", Sound.class);
+
+        bgMusic.setVolume(.8f);
 
         title.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

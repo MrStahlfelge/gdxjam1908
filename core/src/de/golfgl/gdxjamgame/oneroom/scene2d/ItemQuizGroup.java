@@ -104,6 +104,12 @@ public class ItemQuizGroup extends WidgetGroup {
         } else {
             float duration = 0.033f;
             participant[clickedIndex].addAction(Actions.delay(WAIT_BEFORE_SHOWN, Actions.sequence(
+                    Actions.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            app.wrongSound.play();
+                        }
+                    }),
                     Actions.moveBy(50, 0, duration, Interpolation.linear),
                     Actions.moveBy(-50, 0, duration, Interpolation.linear),
                     Actions.moveBy(-40, 0, duration, Interpolation.linear),
