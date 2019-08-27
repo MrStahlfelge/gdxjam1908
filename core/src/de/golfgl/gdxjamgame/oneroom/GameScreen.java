@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
@@ -19,6 +20,7 @@ public class GameScreen extends AbstractScreen {
 
     private final Image imFull;
     private final AnimatedTable mainTable;
+    private final Image imEmpty;
 
     public GameScreen(GdxJamGame app) {
         super(app);
@@ -30,7 +32,7 @@ public class GameScreen extends AbstractScreen {
         mainTable = new AnimatedTable();
         mainTable.pad(50);
         mainTable.setFillParent(true);
-        Image imEmpty = new Image(new TextureRegionDrawable(app.backgroundEmpty));
+        imEmpty = new Image(new TextureRegionDrawable(app.backgroundEmpty));
         imFull = new Image(new TextureRegionDrawable(app.backgroundFull));
 
         mainTable.setTouchable(Touchable.enabled);
@@ -113,7 +115,7 @@ public class GameScreen extends AbstractScreen {
                     @Override
                     public void run() {
                         imFull.addAction(Actions.fadeOut(1f, Interpolation.fade));
-                        beginToPlay();
+                        showNextItem();
                     }
                 });
             }
@@ -196,7 +198,7 @@ public class GameScreen extends AbstractScreen {
                     mainTable.clearAnimated(.3f, new Runnable() {
                         @Override
                         public void run() {
-                            beginToPlay();
+                            showNextItem();
                         }
                     });
                 }
@@ -204,21 +206,74 @@ public class GameScreen extends AbstractScreen {
         });
     }
 
-    private void beginToPlay() {
+    private void showNextItem() {
         mainTable.setVisible(false);
 
-        ItemQuizGroup group = new ItemQuizGroup(app.gameLogic.getNextItem(), app) {
-            @Override
-            protected void onAnswered(boolean correct) {
-                // TODO Count correct answers
+        if (app.gameLogic.isBonusRound()) {
 
-                remove();
-                beginToPlay();
-            }
-        };
-        stage.addActor(group);
+        } else if (app.gameLogic.hasItem()) {
+            ItemQuizGroup group = new ItemQuizGroup(app.gameLogic.getItem(), app) {
+                @Override
+                protected void onDone() {
+                    showNextItem();
+                }
+            };
+            stage.addActor(group);
+        } else {
+            showDoneScreen();
+        }
 
         // TODO Am Ende auf jeden Fall sagen, dass mehr Zeit im Discord Server verbracht werden sollte
+    }
+
+    private void showDoneScreen() {
+        app.bgMusic.stop();
+        mainTable.setVisible(true);
+        mainTable.getColor().a = 0;
+        mainTable.addAction(Actions.fadeIn(.5f, Interpolation.fade));
+
+        mainTable.addMultilineLabelAnimated(new Label("You've made it through!", app.labelStyle), 1f)
+                .expandY().width(.5f * GdxJamGame.nativeGameWidth);
+
+        mainTable.row();
+        mainTable.addMultilineLabelAnimated(new Label("You assigned " + app.gameLogic.getCorrectAnswers() + " items correctly!",
+                app.labelStyle), 3f).expandY();
+
+        // TODO Items zeigen
+
+        // TODO Bonus
+
+        String comment;
+        if (app.gameLogic.getScore() <= 3)
+            comment = "You can do better! Hang out on the Discord server and retry!";
+        else if (app.gameLogic.getScore() <= 6)
+            comment = "Very intermediate. You need to spend more time on the Discord server.";
+        else if (app.gameLogic.getScore() <= 9)
+            comment = "Not bad. But make sure to follow the Discord server more focused.";
+        else
+            comment = "Perfect. Did you count how often you retried?";
+
+        mainTable.row();
+        final Label lastLineLabel = new Label(comment, app.labelStyle);
+        mainTable.addMultilineLabelAnimated(lastLineLabel, 3f).expandY();
+
+        mainTable.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (lastLineLabel.getColor().a == 1) {
+                    imFull.addAction(Actions.fadeIn(.3f, Interpolation.fade));
+                    mainTable.clearAnimated(.3f, new Runnable() {
+                        @Override
+                        public void run() {
+                            mainTable.setBackground((Drawable) null);
+                            app.gameLogic.reset();
+                            fillTableWithTitle();
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     @Override

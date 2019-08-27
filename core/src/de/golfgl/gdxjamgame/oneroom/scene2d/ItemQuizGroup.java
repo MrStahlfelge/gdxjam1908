@@ -90,7 +90,7 @@ public class ItemQuizGroup extends WidgetGroup {
             addAction(Actions.delay(1f, Actions.run(new Runnable() {
                 @Override
                 public void run() {
-                    onAnswered(false);
+                    app.gameLogic.onItemTimeOut();
                 }
             })));
             return;
@@ -128,13 +128,15 @@ public class ItemQuizGroup extends WidgetGroup {
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        onAnswered(correctParticipant == participantClicked);
+                        remove();
+                        onDone();
                     }
                 }))));
+        app.gameLogic.onItemChoosen(clickedIndex == correctParticipant);
     }
 
-    protected void onAnswered(boolean correct) {
-
+    protected void onDone() {
+        // overriding purpose
     }
 
     @Override

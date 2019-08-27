@@ -27,6 +27,7 @@ public class AnimatedTable extends Table {
 
     public Cell<Label> addMultilineLabelAnimated(Label lbl, float delayTime) {
         lbl.setWrap(true);
+        lbl.setAlignment(Align.center);
 
         return addAnimated(lbl, delayTime).fillX();
     }

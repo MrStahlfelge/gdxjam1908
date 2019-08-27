@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -14,20 +15,28 @@ import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 
 public class GameLogic {
     public static final int MAX_ANSWER_TIME = 5;
+    public static final int NUM_ITEMS_SHOWN = 1;
     private final GdxJamGame app;
     private HashMap<String, Participant> participantsMap = new HashMap<>();
     private Array<Item> items = new Array<>();
+
+    private int currentShownItem;
+    private int timeOuts;
+    private IntSet correctAnswers = new IntSet();
 
     public GameLogic(GdxJamGame app) {
         this.app = app;
 
         parseFile(Gdx.files.internal("data.json"));
 
+        reset();
+    }
+
+    public void reset() {
         items.shuffle();
-
-        // TODO: use only 9 items, delete all others
-
-        // TODO: 3 participants with position
+        timeOuts = 0;
+        correctAnswers.clear();
+        currentShownItem = 0;
     }
 
     private void parseFile(FileHandle file) {
@@ -53,8 +62,11 @@ public class GameLogic {
         return participantsMap.get(name);
     }
 
-    public Item getNextItem() {
-        return items.get(0);
+    public Item getItem() {
+        if (currentShownItem < NUM_ITEMS_SHOWN)
+            return items.get(currentShownItem);
+        else
+            return null;
     }
 
     public Array<Participant> getItemParticipantSuggestions(Item item) {
@@ -72,5 +84,35 @@ public class GameLogic {
         participants.shuffle();
 
         return participants;
+    }
+
+    public void onItemTimeOut() {
+        timeOuts++;
+        currentShownItem++;
+    }
+
+    public void onItemChoosen(boolean correct) {
+        if (correct)
+            correctAnswers.add(currentShownItem);
+
+        currentShownItem++;
+    }
+
+    public boolean isBonusRound() {
+        //TODO
+        return false;
+    }
+
+    public boolean hasItem() {
+        return getItem() != null;
+    }
+
+    public IntSet getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public int getScore() {
+        // TODO Bonus
+        return getCorrectAnswers().size;
     }
 }
