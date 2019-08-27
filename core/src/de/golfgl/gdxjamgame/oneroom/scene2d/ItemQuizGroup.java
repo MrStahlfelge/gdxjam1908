@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 
 import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
+import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
 import de.golfgl.gdxjamgame.oneroom.model.Item;
 import de.golfgl.gdxjamgame.oneroom.model.Participant;
 
@@ -66,7 +67,7 @@ public class ItemQuizGroup extends WidgetGroup {
         // Timeout, hehehe
         timePassed = timePassed + delta;
 
-        if (participantClicked < 0 && timePassed > 5 + DELAY_SUGGESTIONS) {
+        if (participantClicked < 0 && timePassed > GameLogic.MAX_ANSWER_TIME + DELAY_SUGGESTIONS) {
             clickedParticipant(participant.length);
         }
     }

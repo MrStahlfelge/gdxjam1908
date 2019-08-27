@@ -13,6 +13,7 @@ import java.util.HashMap;
 import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 
 public class GameLogic {
+    public static final int MAX_ANSWER_TIME = 5;
     private final GdxJamGame app;
     private HashMap<String, Participant> participantsMap = new HashMap<>();
     private Array<Item> items = new Array<>();

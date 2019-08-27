@@ -67,7 +67,7 @@ public class GdxJamGame extends Game {
         labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(1, 1, 1, .5f);
+        pixmap.setColor(1, 1, 1, .7f);
         pixmap.drawPixel(0, 0);
         bgWhite = new Texture(pixmap); //remember to dispose of later
         pixmap.dispose();
