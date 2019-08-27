@@ -204,8 +204,11 @@ public class ItemQuizGroup extends WidgetGroup {
             stack.add(background);
             stack.add(imageActor);
             add(stack).size(300);
-            row();
-            add(new Label(item.getDescription(), app.labelStyle)).pad(30);
+            String description = item.getDescription();
+            if (description != null) {
+                row();
+                add(new Label(description, app.labelStyle)).pad(30);
+            }
             pack();
         }
     }
