@@ -69,6 +69,10 @@ public class GameLogic {
             return null;
     }
 
+    public Item getItem(int index) {
+        return items.get(index);
+    }
+
     public Array<Participant> getItemParticipantSuggestions(Item item) {
         Array<Participant> participants = new Array<>(3);
         ArrayList<Participant> allParticipants = new ArrayList(participantsMap.values());

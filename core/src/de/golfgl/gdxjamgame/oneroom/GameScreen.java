@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.Timer;
 
 import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
+import de.golfgl.gdxjamgame.oneroom.scene2d.AllItemsGroup;
 import de.golfgl.gdxjamgame.oneroom.scene2d.AnimatedTable;
 import de.golfgl.gdxjamgame.oneroom.scene2d.ItemQuizGroup;
 
@@ -251,7 +252,10 @@ public class GameScreen extends AbstractScreen {
         mainTable.addMultilineLabelAnimated(new Label("You've assigned " + assignedItems.size + " items correctly!",
                 app.labelStyle), 3f).expandY();
 
-        // TODO Items zeigen
+        // Items zeigen
+        mainTable.row();
+        AllItemsGroup allItemsGroup = new AllItemsGroup(app, mainTable.getDelayTime());
+        mainTable.add(allItemsGroup).expandY();
 
         // TODO Bonus
 

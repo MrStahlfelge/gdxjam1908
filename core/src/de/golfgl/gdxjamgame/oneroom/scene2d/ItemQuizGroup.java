@@ -6,14 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Scaling;
 
 import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
@@ -160,56 +156,4 @@ public class ItemQuizGroup extends WidgetGroup {
         }
     }
 
-    static class ParticipantActor extends Table {
-
-        private final Image imageActor;
-        private final Label label;
-
-        public ParticipantActor(Participant participant, GdxJamGame app) {
-            imageActor = new Image(participant.getAvatar());
-            Image background = new Image(app.circle);
-
-            imageActor.setScaling(Scaling.none);
-
-            Stack stack = new Stack();
-
-            stack.add(background);
-            stack.add(imageActor);
-            add(stack).size(250);
-            row();
-            label = new Label(participant.getName(), app.labelStyle);
-            add(label).pad(30);
-            pack();
-        }
-
-        public Image getImageActor() {
-            return imageActor;
-        }
-
-        public Label getLabel() {
-            return label;
-        }
-    }
-
-    static class ItemActor extends Table {
-
-        public ItemActor(Item item, GdxJamGame app) {
-            Image imageActor = new Image(item.getImage());
-            Image background = new Image(app.circle);
-
-            imageActor.setScaling(Scaling.none);
-
-            Stack stack = new Stack();
-
-            stack.add(background);
-            stack.add(imageActor);
-            add(stack).size(300);
-            String description = item.getDescription();
-            if (description != null) {
-                row();
-                add(new Label(description, app.labelStyle)).pad(30);
-            }
-            pack();
-        }
-    }
 }
