@@ -87,10 +87,11 @@ public class ItemQuizGroup extends WidgetGroup {
         }
 
         if (clickedIndex >= participant.length) {
+            app.gameLogic.onItemTimeOut();
             addAction(Actions.delay(1f, Actions.run(new Runnable() {
                 @Override
                 public void run() {
-                    app.gameLogic.onItemTimeOut();
+                    onDone();
                 }
             })));
             return;

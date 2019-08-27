@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.IntSet;
+import com.badlogic.gdx.utils.Timer;
 
 import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
 import de.golfgl.gdxjamgame.oneroom.scene2d.AnimatedTable;
@@ -226,7 +227,13 @@ public class GameScreen extends AbstractScreen {
             };
             stage.addActor(group);
         } else {
-            showDoneScreen();
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    showDoneScreen();
+                }
+            }, 1.5f);
+
         }
     }
 
