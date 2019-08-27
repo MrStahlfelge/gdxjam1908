@@ -16,7 +16,7 @@ public class Item {
 
         String imageFile = value.getString("image");
         if (imageFile != null) {
-            image = new Texture(Gdx.files.internal(imageFile));
+            image = new Texture(Gdx.files.internal("items/" + imageFile));
             image.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         } else
             image = app.noAvatar;
