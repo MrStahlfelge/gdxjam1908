@@ -19,7 +19,7 @@ public class Participant {
 
         String avatarFile = value.getString("avatar");
         if (avatarFile != null) {
-            avatar = new Texture(Gdx.files.internal(avatarFile));
+            avatar = new Texture(Gdx.files.internal("participants/" + avatarFile));
             avatar.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         } else
             avatar = app.noAvatar;

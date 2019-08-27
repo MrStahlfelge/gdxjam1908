@@ -1,5 +1,6 @@
 package de.golfgl.gdxjamgame.oneroom.scene2d;
 
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.IntSet;
@@ -10,7 +11,7 @@ import de.golfgl.gdxjamgame.oneroom.model.Item;
 
 public class AllItemsGroup extends AnimatedTable {
 
-    public static final float SCALE = .5f;
+    public static final float SCALE = .4f;
 
     public AllItemsGroup(GdxJamGame app, float animationDelay) {
         setDelayTime(animationDelay);
@@ -34,6 +35,7 @@ public class AllItemsGroup extends AnimatedTable {
 
         setScale(SCALE);
         setTransform(true);
+        setTouchable(Touchable.disabled);
     }
 
     @Override
