@@ -18,6 +18,7 @@ import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
 import de.golfgl.gdxjamgame.oneroom.scene2d.AllItemsGroup;
 import de.golfgl.gdxjamgame.oneroom.scene2d.AnimatedTable;
 import de.golfgl.gdxjamgame.oneroom.scene2d.ItemQuizGroup;
+import de.golfgl.gdxjamgame.oneroom.scene2d.LocationQuizActor;
 
 public class GameScreen extends AbstractScreen {
 
@@ -218,6 +219,13 @@ public class GameScreen extends AbstractScreen {
         mainTable.setVisible(false);
 
         if (app.gameLogic.isBonusRound()) {
+            LocationQuizActor actor = new LocationQuizActor(app.gameLogic.getBonusParticipant(), app) {
+                @Override
+                protected void onDone() {
+                    showNextItem();
+                }
+            };
+            stage.addActor(actor);
 
         } else if (app.gameLogic.hasItem()) {
             ItemQuizGroup group = new ItemQuizGroup(app.gameLogic.getItem(), app) {

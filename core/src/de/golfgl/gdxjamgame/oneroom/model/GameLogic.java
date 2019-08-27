@@ -119,4 +119,8 @@ public class GameLogic {
         // TODO Bonus
         return getAssignedItems().size;
     }
+
+    public Participant getBonusParticipant() {
+        return getParticipant("MrStahlfelge");
+    }
 }
