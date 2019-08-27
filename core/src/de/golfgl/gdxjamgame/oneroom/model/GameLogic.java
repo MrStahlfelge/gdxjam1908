@@ -15,7 +15,7 @@ import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 
 public class GameLogic {
     public static final int MAX_ANSWER_TIME = 5;
-    public static final int NUM_ITEMS_SHOWN = 1;
+    public static final int NUM_ITEMS_SHOWN = 10;
     private final GdxJamGame app;
     private HashMap<String, Participant> participantsMap = new HashMap<>();
     private Array<Item> items = new Array<>();
@@ -107,12 +107,12 @@ public class GameLogic {
         return getItem() != null;
     }
 
-    public IntSet getCorrectAnswers() {
+    public IntSet getAssignedItems() {
         return correctAnswers;
     }
 
     public int getScore() {
         // TODO Bonus
-        return getCorrectAnswers().size;
+        return getAssignedItems().size;
     }
 }

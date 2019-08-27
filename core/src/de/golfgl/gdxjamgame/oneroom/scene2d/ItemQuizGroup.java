@@ -22,7 +22,7 @@ import de.golfgl.gdxjamgame.oneroom.model.Participant;
 
 public class ItemQuizGroup extends WidgetGroup {
 
-    public static final float DELAY_SUGGESTIONS = 2f;
+    public static final float DELAY_SUGGESTIONS = 2.3f;
     public static final float DELAY_BETWEEN_PARTICIPANTS = .2f;
     public static final float WAIT_BEFORE_SHOWN = 1f;
     private final GdxJamGame app;
@@ -147,7 +147,7 @@ public class ItemQuizGroup extends WidgetGroup {
             // lay everything out
             itemActor.setPosition(-itemActor.getWidth(), stage.getHeight() * 3 / 4 - itemActor.getHeight());
             itemActor.addAction(Actions.moveTo(stage.getWidth() / 2 - itemActor.getWidth() / 2, itemActor.getY(), 1f, Interpolation.fade));
-            itemActor.addAction(Actions.delay(2f, Actions.moveBy(stage.getWidth(), 0, 1f, Interpolation.fade)));
+            itemActor.addAction(Actions.delay(DELAY_SUGGESTIONS, Actions.moveBy(stage.getWidth(), 0, 1f, Interpolation.fade)));
 
             for (int i = 0; i < participant.length; i++) {
                 float posX = (stage.getWidth() - participant[i].getWidth()) * (i + 1) / (participant.length + 1);

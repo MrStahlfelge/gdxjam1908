@@ -13,18 +13,7 @@ abstract class AbstractScreen implements Screen {
     AbstractScreen(final GdxJamGame app) {
         this.app = app;
         FitViewport viewport = new FitViewport(GdxJamGame.nativeGameWidth, GdxJamGame.nativeGameHeight);
-        stage = new Stage(viewport) {
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                // enable Music
-                if (!app.bgMusic.isPlaying()) {
-                    app.bgMusic.play();
-                    app.bgMusic.setLooping(true);
-                }
-
-                return super.touchDown(screenX, screenY, pointer, button);
-            }
-        };
+        stage = new Stage(viewport);
     }
 
     @Override

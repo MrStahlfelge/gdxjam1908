@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.IntSet;
 
 import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
 import de.golfgl.gdxjamgame.oneroom.scene2d.AnimatedTable;
@@ -77,6 +78,11 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void fillTableWithIntroPage1() {
+        if (!app.bgMusic.isPlaying()) {
+            app.bgMusic.play();
+            app.bgMusic.setLooping(true);
+        }
+
         mainTable.setBackground(new TextureRegionDrawable(app.bgWhite));
         mainTable.getColor().a = 0;
         mainTable.addAction(Actions.fadeIn(.5f, Interpolation.fade));
@@ -222,8 +228,6 @@ public class GameScreen extends AbstractScreen {
         } else {
             showDoneScreen();
         }
-
-        // TODO Am Ende auf jeden Fall sagen, dass mehr Zeit im Discord Server verbracht werden sollte
     }
 
     private void showDoneScreen() {
@@ -236,7 +240,8 @@ public class GameScreen extends AbstractScreen {
                 .expandY().width(.5f * GdxJamGame.nativeGameWidth);
 
         mainTable.row();
-        mainTable.addMultilineLabelAnimated(new Label("You assigned " + app.gameLogic.getCorrectAnswers() + " items correctly!",
+        IntSet assignedItems = app.gameLogic.getAssignedItems();
+        mainTable.addMultilineLabelAnimated(new Label("You've assigned " + assignedItems.size + " items correctly!",
                 app.labelStyle), 3f).expandY();
 
         // TODO Items zeigen
