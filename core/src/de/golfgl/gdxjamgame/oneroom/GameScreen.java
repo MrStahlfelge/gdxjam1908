@@ -90,8 +90,8 @@ public class GameScreen extends AbstractScreen {
         mainTable.getColor().a = 0;
         mainTable.addAction(Actions.fadeIn(.5f, Interpolation.fade));
 
-        mainTable.addMultilineLabelAnimated(new Label("On a warm day in August 2019, the core libGDX discord crew meet up " +
-                "for the traditional summer party hosted by BambooBandit.", app.labelStyle), 1f)
+        mainTable.addMultilineLabelAnimated(new Label("On a warm day in August 2019, the libGDX discord server's " +
+                "community met up for the traditional summer party hosted by BambooBandit.", app.labelStyle), 1f)
                 .expandY().width(.5f * GdxJamGame.nativeGameWidth);
 
         mainTable.row();
