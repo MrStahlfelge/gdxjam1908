@@ -21,6 +21,7 @@ public class GdxJamGame extends Game {
     public Texture crosshair;
     public Music bgMusic;
     public Sound wrongSound;
+    public Sound doneSound;
     public Label.LabelStyle labelStyle;
     public Texture bgWhite;
     public Texture noAvatar;
@@ -46,6 +47,7 @@ public class GdxJamGame extends Game {
         assetManager.load("noavatar.png", Texture.class);
         assetManager.load("circle.png", Texture.class);
         assetManager.load("wrong.mp3", Sound.class);
+        assetManager.load("donescreen.mp3", Sound.class);
         assetManager.load("crosshair.png", Texture.class);
 
         assetManager.finishLoading();
@@ -58,6 +60,7 @@ public class GdxJamGame extends Game {
         noAvatar = assetManager.get("noavatar.png", Texture.class);
         circle = assetManager.get("circle.png", Texture.class);
         wrongSound = assetManager.get("wrong.mp3", Sound.class);
+        doneSound = assetManager.get("donescreen.mp3", Sound.class);
         crosshair = assetManager.get("crosshair.png", Texture.class);
 
         bgMusic.setVolume(.8f);

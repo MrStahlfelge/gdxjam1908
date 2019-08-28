@@ -248,6 +248,8 @@ public class GameScreen extends AbstractScreen {
 
     private void showDoneScreen() {
         app.bgMusic.stop();
+        app.doneSound.play();
+
         mainTable.setVisible(true);
         mainTable.getColor().a = 0;
         mainTable.addAction(Actions.fadeIn(.5f, Interpolation.fade));
