@@ -88,6 +88,7 @@ public class LocationQuizActor extends WidgetGroup {
 
         crosshair.addAction(Actions.sequence(Actions.delay(CROSSHAIR_FADEIN + .5f),
                 Actions.fadeOut(.3f),
+                Actions.delay(.5f),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
@@ -135,6 +136,7 @@ public class LocationQuizActor extends WidgetGroup {
                                 correct ? .2f : .5f, Interpolation.fade)),
                 Actions.delay(.5f),
                 Actions.fadeOut(.3f),
+                Actions.delay(.5f),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {

@@ -9,9 +9,7 @@ import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
 import de.golfgl.gdxjamgame.oneroom.model.Item;
 
-public class AllItemsGroup extends AnimatedTable {
-
-    public static final float SCALE = .4f;
+public class AllItemsGroup extends ScaledAnimatedTable {
 
     public AllItemsGroup(GdxJamGame app, float animationDelay) {
         setDelayTime(animationDelay);
@@ -33,34 +31,7 @@ public class AllItemsGroup extends AnimatedTable {
             addAnimated(itemAndOwner, .5f).uniform().top();
         }
 
-        setScale(SCALE);
-        setTransform(true);
         setTouchable(Touchable.disabled);
     }
 
-    @Override
-    public void layout() {
-        super.layout();
-        setOrigin(Align.center);
-    }
-
-    @Override
-    public float getPrefWidth() {
-        return super.getPrefWidth() * SCALE;
-    }
-
-    @Override
-    public float getPrefHeight() {
-        return super.getPrefHeight() * SCALE;
-    }
-
-    @Override
-    public float getMinWidth() {
-        return super.getMinWidth() * SCALE;
-    }
-
-    @Override
-    public float getMinHeight() {
-        return super.getMinHeight() * SCALE;
-    }
 }

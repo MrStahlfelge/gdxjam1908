@@ -154,4 +154,8 @@ public class GameLogic {
     public Participant getBonusParticipant() {
         return bonusParticipants.first();
     }
+
+    public Array<Participant> getCorrectLocations() {
+        return correctLocations;
+    }
 }

@@ -11,14 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.Timer;
 
 import de.golfgl.gdxjamgame.oneroom.model.GameLogic;
+import de.golfgl.gdxjamgame.oneroom.model.Participant;
 import de.golfgl.gdxjamgame.oneroom.scene2d.AllItemsGroup;
 import de.golfgl.gdxjamgame.oneroom.scene2d.AnimatedTable;
 import de.golfgl.gdxjamgame.oneroom.scene2d.ItemQuizGroup;
 import de.golfgl.gdxjamgame.oneroom.scene2d.LocationQuizActor;
+import de.golfgl.gdxjamgame.oneroom.scene2d.ParticipantsGroup;
 
 public class GameScreen extends AbstractScreen {
 
@@ -267,23 +270,41 @@ public class GameScreen extends AbstractScreen {
         AllItemsGroup allItemsGroup = new AllItemsGroup(app, mainTable.getDelayTime());
         mainTable.add(allItemsGroup).expandY();
 
-        // TODO Bonus
+        mainTable.row();
+        Array<Participant> foundParticipants = app.gameLogic.getCorrectLocations();
+        mainTable.addMultilineLabelAnimated(new Label("You've gained " + foundParticipants.size + " bonus points!",
+                app.labelStyle), 3f).expandY();
 
-        // TODO A-E Wertung
+        // Items zeigen
+        mainTable.row();
+        ParticipantsGroup participantsGroup = new ParticipantsGroup(app, mainTable.getDelayTime());
+        mainTable.add(participantsGroup).expandY();
 
         String comment;
-        if (app.gameLogic.getScore() <= 3)
+        String rating;
+        if (app.gameLogic.getScore() == 0) {
+            rating = "E";
+            comment = "Hm... Did you try seriously?";
+        } else if (app.gameLogic.getScore() <= 4) {
+            rating = "D";
             comment = "You can do better! Hang out on the Discord server and retry!";
-        else if (app.gameLogic.getScore() <= 6)
+        } else if (app.gameLogic.getScore() <= 7) {
+            rating = "C";
             comment = "Very intermediate. You need to spend more time on the Discord server.";
-        else if (app.gameLogic.getScore() <= 9)
+        } else if (app.gameLogic.getScore() <= 10) {
+            rating = "B";
             comment = "Not bad. But make sure to follow the Discord server more focused.";
-        else
+        } else {
+            rating = "A";
             comment = "Perfect. Did you count how often you retried?";
+        }
+
+        mainTable.row();
+        mainTable.addMultilineLabelAnimated(new Label("Rating: " + rating, app.labelStyle), 2f).expandY();
 
         mainTable.row();
         final Label lastLineLabel = new Label(comment, app.labelStyle);
-        mainTable.addMultilineLabelAnimated(lastLineLabel, 3f).expandY();
+        mainTable.addMultilineLabelAnimated(lastLineLabel, 0f).expandY();
 
         mainTable.addListener(new ClickListener() {
             @Override
