@@ -23,21 +23,20 @@ public class LocationQuizActor extends WidgetGroup {
     private final Participant participant;
     private final Image crosshair;
     private final GdxJamGame app;
+    private final Label label;
+    private final ParticipantActor participantActor;
     private int clickedX = -1;
     private int clickedY = -1;
     private float timeGone = 0;
-    private final Label label;
-    private final ParticipantActor participantActor;
 
     public LocationQuizActor(Participant participant, GdxJamGame app) {
         this.participant = participant;
 
-        label = new Label("BONUS! Do you know where this gentleman was located while the party was going on?", app.labelStyle);
+        label = new Label("BONUS POINTS! Do you know where this gentleman was located while the party was going on?", app.labelStyle);
 
         addActor(label);
-        label.getColor().a = 0;
-        label.addAction(Actions.fadeIn(.5f, Interpolation.fade));
-        label.setPosition(GdxJamGame.nativeGameWidth / 2, GdxJamGame.nativeGameHeight, Align.top);
+        label.addAction(Actions.moveBy(0, -label.getPrefHeight() * 2, .5f, Interpolation.fade));
+        label.setPosition(GdxJamGame.nativeGameWidth / 2, GdxJamGame.nativeGameHeight, Align.bottom);
 
         participantActor = new ParticipantActor(participant, app);
 
@@ -64,8 +63,40 @@ public class LocationQuizActor extends WidgetGroup {
 
         timeGone = timeGone + delta;
 
-        if (timeGone > ANSWER_TIME)
-            clickedPos(getStage().getWidth() / 2, getStage().getHeight() + 1000);
+        if (timeGone > ANSWER_TIME && getStage() != null)
+            timesup();
+    }
+
+    private void timesup() {
+        if (clickedX > 0 && clickedY > 0)
+            return;
+
+        //block further clicks or timegone actions
+        clickedX = 1;
+        clickedY = 1;
+
+        app.gameLogic.setBonusRoundDone(false);
+        app.wrongSound.play();
+
+        addActor(crosshair);
+        crosshair.setPosition(participant.getPosCenterX(), participant.getPosCenterY(), Align.center);
+        crosshair.setColor(Color.RED);
+        addCrosshairFadeInActions();
+
+        label.addAction(Actions.moveBy(0, label.getPrefHeight() * 2, .75f, Interpolation.fade));
+        participantActor.addAction(Actions.fadeOut(.5f, Interpolation.fade));
+
+        crosshair.addAction(Actions.sequence(Actions.delay(CROSSHAIR_FADEIN + .5f),
+                Actions.fadeOut(.3f),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        remove();
+                        onDone();
+                    }
+                })
+        ));
+
     }
 
     private void clickedPos(float x, float y) {
@@ -77,19 +108,16 @@ public class LocationQuizActor extends WidgetGroup {
 
         final boolean correct = participant.isNearPos(clickedX, clickedY);
 
-        label.addAction(Actions.fadeOut(.5f, Interpolation.fade));
+        app.gameLogic.setBonusRoundDone(correct);
+
+        label.addAction(Actions.moveBy(0, label.getPrefHeight() * 2, .75f, Interpolation.fade));
         participantActor.addAction(Actions.fadeOut(.5f, Interpolation.fade));
 
         addActor(crosshair);
         crosshair.setPosition(x, y, Align.center);
         crosshair.setColor(Color.BLACK);
-        crosshair.setOrigin(Align.center);
-        crosshair.setScale(2f);
-        crosshair.getColor().a = 0;
-
-        crosshair.addAction(Actions.fadeIn(CROSSHAIR_FADEIN, Interpolation.fade));
-        crosshair.addAction(Actions.scaleTo(1, 1, CROSSHAIR_FADEIN, Interpolation.fade));
-        crosshair.addAction(Actions.delay(1f, Actions.sequence(
+        addCrosshairFadeInActions();
+        crosshair.addAction(Actions.delay(CROSSHAIR_FADEIN, Actions.sequence(
                 Actions.alpha(.5f, .5f),
                 Actions.alpha(1, .5f),
                 Actions.alpha(.5f, .5f),
@@ -102,7 +130,8 @@ public class LocationQuizActor extends WidgetGroup {
                     }
                 }),
                 Actions.parallel(Actions.color(correct ? Color.GREEN : Color.RED, .2f, Interpolation.fade),
-                        Actions.moveTo(participant.getPosX() - crosshair.getWidth() / 2, participant.getPosY() - crosshair.getHeight() / 2,
+                        Actions.moveTo(participant.getPosX(clickedX) - crosshair.getWidth() / 2,
+                                participant.getPosY(clickedY) - crosshair.getHeight() / 2,
                                 correct ? .2f : .5f, Interpolation.fade)),
                 Actions.delay(.5f),
                 Actions.fadeOut(.3f),
@@ -114,6 +143,16 @@ public class LocationQuizActor extends WidgetGroup {
                     }
                 })
         )));
+    }
+
+    private void addCrosshairFadeInActions() {
+        crosshair.setOrigin(Align.center);
+        crosshair.setScale(2f);
+        crosshair.getColor().a = 0;
+
+        crosshair.addAction(Actions.rotateBy(MathUtils.random(-45, 45), CROSSHAIR_FADEIN, Interpolation.fade));
+        crosshair.addAction(Actions.fadeIn(CROSSHAIR_FADEIN, Interpolation.fade));
+        crosshair.addAction(Actions.scaleTo(1, 1, CROSSHAIR_FADEIN, Interpolation.fade));
     }
 
     protected void onDone() {

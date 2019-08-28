@@ -107,6 +107,10 @@ public class GameLogic {
         return false;
     }
 
+    public void setBonusRoundDone(boolean success) {
+        // TODO
+    }
+
     public boolean hasItem() {
         return getItem() != null;
     }
