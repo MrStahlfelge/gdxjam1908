@@ -40,7 +40,7 @@ public class LocationQuizActor extends WidgetGroup {
 
         participantActor = new ParticipantActor(participant, app);
 
-        participantActor.setPosition(-participantActor.getWidth(), 50);
+        participantActor.setPosition(-participantActor.getWidth() - 50, 50);
         participantActor.addAction(Actions.moveTo(GdxJamGame.nativeGameWidth, 50, ANSWER_TIME));
         addActor(participantActor);
 

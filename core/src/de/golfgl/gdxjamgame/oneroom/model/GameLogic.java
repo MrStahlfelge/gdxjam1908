@@ -16,6 +16,7 @@ import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 public class GameLogic {
     public static final int MAX_ANSWER_TIME = 5;
     public static final int NUM_ITEMS_SHOWN = 10;
+    public static final int ITEMS_PER_BONUS_ROUND = 3;
     private final GdxJamGame app;
     private HashMap<String, Participant> participantsMap = new HashMap<>();
     private Array<Item> items = new Array<>();
@@ -57,9 +58,9 @@ public class GameLogic {
         else {
             int minValue = 0;
             while (minValue <= currentShownItem)
-                minValue = minValue + 3;
+                minValue = minValue + ITEMS_PER_BONUS_ROUND;
 
-            nextBonusRound = MathUtils.random(minValue, minValue + 3);
+            nextBonusRound = MathUtils.random(minValue, minValue + ITEMS_PER_BONUS_ROUND);
         }
     }
 
