@@ -269,6 +269,8 @@ public class GameScreen extends AbstractScreen {
 
         // TODO Bonus
 
+        // TODO A-E Wertung
+
         String comment;
         if (app.gameLogic.getScore() <= 3)
             comment = "You can do better! Hang out on the Discord server and retry!";

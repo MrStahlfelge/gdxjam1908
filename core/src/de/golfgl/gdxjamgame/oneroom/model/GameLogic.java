@@ -19,10 +19,12 @@ public class GameLogic {
     private final GdxJamGame app;
     private HashMap<String, Participant> participantsMap = new HashMap<>();
     private Array<Item> items = new Array<>();
-
+    private Array<Participant> bonusParticipants;
+    private int nextBonusRound;
     private int currentShownItem;
     private int timeOuts;
-    private IntSet correctAnswers = new IntSet();
+    private IntSet correctItemAnswers = new IntSet();
+    private Array<Participant> correctLocations = new Array<>();
 
     public GameLogic(GdxJamGame app) {
         this.app = app;
@@ -33,10 +35,32 @@ public class GameLogic {
     }
 
     public void reset() {
+        // ItemQuiz
         items.shuffle();
         timeOuts = 0;
-        correctAnswers.clear();
+        correctItemAnswers.clear();
         currentShownItem = 0;
+
+        // Bonus: LocationQuiz
+        bonusParticipants = new Array<>();
+        for (Participant p : participantsMap.values()) {
+            if (p.hasPosition())
+                bonusParticipants.add(p);
+        }
+        bonusParticipants.shuffle();
+        setNextBonusRound();
+    }
+
+    public void setNextBonusRound() {
+        if (bonusParticipants.isEmpty())
+            nextBonusRound = -1;
+        else {
+            int minValue = 0;
+            while (minValue <= currentShownItem)
+                minValue = minValue + 3;
+
+            nextBonusRound = MathUtils.random(minValue, minValue + 3);
+        }
     }
 
     private void parseFile(FileHandle file) {
@@ -97,18 +121,22 @@ public class GameLogic {
 
     public void onItemChoosen(boolean correct) {
         if (correct)
-            correctAnswers.add(currentShownItem);
+            correctItemAnswers.add(currentShownItem);
 
         currentShownItem++;
     }
 
     public boolean isBonusRound() {
-        //TODO
-        return false;
+        return currentShownItem >= nextBonusRound;
     }
 
     public void setBonusRoundDone(boolean success) {
-        // TODO
+        if (success) {
+            correctLocations.add(bonusParticipants.first());
+        }
+
+        bonusParticipants.removeIndex(0);
+        setNextBonusRound();
     }
 
     public boolean hasItem() {
@@ -116,15 +144,14 @@ public class GameLogic {
     }
 
     public IntSet getAssignedItems() {
-        return correctAnswers;
+        return correctItemAnswers;
     }
 
     public int getScore() {
-        // TODO Bonus
-        return getAssignedItems().size;
+        return getAssignedItems().size + correctLocations.size;
     }
 
     public Participant getBonusParticipant() {
-        return getParticipant("MrStahlfelge");
+        return bonusParticipants.first();
     }
 }
