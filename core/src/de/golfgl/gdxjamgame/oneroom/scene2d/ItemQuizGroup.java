@@ -84,6 +84,7 @@ public class ItemQuizGroup extends WidgetGroup {
 
         if (clickedIndex >= participant.length) {
             app.gameLogic.onItemTimeOut();
+            app.wrongSound.play();
             addAction(Actions.delay(1f, Actions.run(new Runnable() {
                 @Override
                 public void run() {
