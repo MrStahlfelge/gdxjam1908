@@ -1,6 +1,8 @@
 package de.golfgl.gdxjamgame.oneroom;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -26,14 +28,16 @@ public class GdxJamGame extends Game {
     public Texture bgWhite;
     public Texture noAvatar;
     public Texture circle;
+    public GameLogic gameLogic;
     private AssetManager assetManager;
     private BitmapFont font;
-    public GameLogic gameLogic;
+    private Preferences prefs;
 
     @Override
     public void create() {
         loadAssets();
         loadData();
+        prefs = Gdx.app.getPreferences("jam1908");
         this.setScreen(new GameScreen(this));
     }
 
@@ -82,6 +86,15 @@ public class GdxJamGame extends Game {
 
     private void loadData() {
         gameLogic = new GameLogic(this);
+    }
+
+    public boolean canSkipIntro() {
+        return prefs.getBoolean("introseen", false);
+    }
+
+    public void setIntroSeen() {
+        prefs.putBoolean("introseen", true);
+        prefs.flush();
     }
 
     @Override

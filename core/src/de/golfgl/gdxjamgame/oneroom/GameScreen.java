@@ -118,7 +118,6 @@ public class GameScreen extends AbstractScreen {
 
         mainTable.row();
         AnimatedTable smallTable = new AnimatedTable();
-        // TODO make skiplabel only available after went through intro before
         Label skipLabel = new Label("Skip intro", app.labelStyle);
         skipLabel.addListener(new ClickListener() {
             @Override
@@ -132,6 +131,7 @@ public class GameScreen extends AbstractScreen {
                 });
             }
         });
+        skipLabel.setVisible(app.canSkipIntro());
         smallTable.add(skipLabel).expandX().left();
         final Label continueLabel = new Label("Tap to continue.", app.labelStyle);
         smallTable.addAnimated(continueLabel, mainTable.getDelayTime() + 1f).right();
@@ -189,6 +189,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void fillTableWithIntroPage3() {
+        app.setIntroSeen();
         imFull.addAction(Actions.fadeOut(1f, Interpolation.fade));
 
         mainTable.addMultilineLabelAnimated(new Label("\"Ha! You want to help me?\", spoke BambooBandit.", app.labelStyle), 1f)
