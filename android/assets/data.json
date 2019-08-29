@@ -11,6 +11,8 @@
     {"name": "Early Grey", "avatar": "earlygrey.png"},
     {"name": "RedSponge", "avatar": "redsponge.png"},
     {"name": "cococore", "avatar": "cococore.png"},
+    {"name": "evnilentity", "avatar": null},
+    {"name": "MobiDevelop", "avatar": null},
     {"name": "TEttinger", "avatar": "tettinger.png", "pos": [1500, 950, 1750, 1200]},
     {"name": "RafaSKB", "avatar": "rafaskb.png", "pos": [280, 720, 700, 1220]},
     {"name": "Bigbass", "avatar": "bigbass.png", "pos": [1000, 400, 1150, 660]},
