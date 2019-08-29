@@ -5,3 +5,5 @@ This is a submission for the [libGDX GameJam August 2019](https://itch.io/jam/li
 Main art by [BambooBandit](https://github.com/BambooBandit), other asset files are CC0 or made by other members of the libGDX Discord community.
 
 Use the code as you want, but not the picture files.
+
+[Play the game](https://mrstahlfelge.itch.io/gdxjam1908)

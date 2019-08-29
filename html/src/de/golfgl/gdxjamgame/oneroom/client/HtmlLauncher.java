@@ -16,7 +16,7 @@ import de.golfgl.gdxjamgame.oneroom.GdxJamGame;
 public class HtmlLauncher extends GwtApplication {
 
          // PADDING is to avoid scrolling in iframes, set to 20 if you have problems
-         private static final int PADDING = 0;
+         private static final int PADDING = 10;
          private GwtApplicationConfiguration cfg;
 
          @Override
@@ -26,6 +26,10 @@ public class HtmlLauncher extends GwtApplication {
              cfg = new GwtApplicationConfiguration(w, h);
              cfg.usePhysicalPixels = true;
              cfg.fullscreenOrientation = GwtGraphics.OrientationLockType.LANDSCAPE;
+             double density = GwtGraphics.getNativeScreenDensity();
+             cfg.width = (int) (cfg.width * density);
+             cfg.height = (int) (cfg.height * density);
+
              Window.enableScrolling(false);
              Window.setMargin("0");
              Window.addResizeHandler(new ResizeListener());
@@ -39,6 +43,11 @@ public class HtmlLauncher extends GwtApplication {
                  int height = event.getHeight() - PADDING;
                  getRootPanel().setWidth("" + width + "px");
                  getRootPanel().setHeight("" + height + "px");
+                 if (cfg.usePhysicalPixels) {
+                     double density = GwtGraphics.getNativeScreenDensity();
+                     width = (int) (width * density);
+                     height = (int) (height * density);
+                 }
                  getApplicationListener().resize(width, height);
                  Gdx.graphics.setWindowedMode(width, height);
              }
