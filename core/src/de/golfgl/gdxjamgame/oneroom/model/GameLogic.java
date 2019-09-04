@@ -49,6 +49,7 @@ public class GameLogic {
                 bonusParticipants.add(p);
         }
         bonusParticipants.shuffle();
+        correctLocations.clear();
         setNextBonusRound();
     }
 
